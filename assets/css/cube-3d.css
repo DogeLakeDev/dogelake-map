@@ -1,0 +1,62 @@
+.cube-3d {
+    position: relative;
+
+    --cube-calced-o-size: calc(var(--cube-o-size) * var(--cube-unit));
+    --cube-calced-o-size-divided-2: calc(var(--cube-calced-o-size) / 2);
+    width: var(--cube-calced-o-size);
+    height: var(--cube-calced-o-size);
+
+    transform-style: preserve-3d;
+    transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) rotateZ(var(--rotate-z))
+               scaleX(calc(var(--cube-width) / var(--cube-o-size)))
+               scaleY(calc(var(--cube-height) / var(--cube-o-size)))
+               scaleZ(calc(var(--cube-length) / var(--cube-o-size)));
+}
+.cube-3d > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.cube-3d .top {
+    transform: rotateX(90deg) translateZ(var(--cube-calced-o-size-divided-2));
+}
+.cube-3d .bottom {
+    transform: rotateX(-90deg) translateZ(var(--cube-calced-o-size-divided-2));
+}
+.cube-3d .front {
+    transform: rotateY(0deg) translateZ(var(--cube-calced-o-size-divided-2));
+}
+.cube-3d .back {
+    transform: rotateY(-180deg) translateZ(var(--cube-calced-o-size-divided-2));
+}
+.cube-3d .left {
+    transform: rotateY(-90deg) translateZ(var(--cube-calced-o-size-divided-2));
+}
+.cube-3d .right {
+    transform: rotateY(90deg) translateZ(var(--cube-calced-o-size-divided-2));
+}
+
+
+
+.cube-3d.demo {
+    --cube-o-size: 200;
+    --cube-unit: 1px;
+
+    --cube-length: 200;
+    --cube-width: 200;
+    --cube-height: 200;
+
+    --rotate-x: -33.5deg;
+    --rotate-y: 45deg;
+    --rotate-z: 0;
+
+    background-color: skyblue;
+}
+.cube-3d.demo .top   , .cube-3d.demo-color .top    {background-color: rgba(255, 0, 0, 0.4)}
+.cube-3d.demo .bottom, .cube-3d.demo-color .bottom {background-color: rgba(0, 255, 0, 0.4)}
+.cube-3d.demo .front , .cube-3d.demo-color .front  {background-color: rgba(100, 100, 100, 0.4)}
+.cube-3d.demo .back  , .cube-3d.demo-color .back   {background-color: rgba(100, 100, 100, 0.4)}
+.cube-3d.demo .left  , .cube-3d.demo-color .left   {background-color: rgba(255, 255, 0, 0.4)}
+.cube-3d.demo .right , .cube-3d.demo-color .right  {background-color: rgba(255, 255, 0, 0.4)}

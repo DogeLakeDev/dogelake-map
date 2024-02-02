@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/cube-3d.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.net/openlayers/8.2.0/ol.css">
+    <link rel="stylesheet" href="assets/css/map/better-openlayers.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="assets/css/mcmotd.css">
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+
+            color: #bababa;
+            background-color: #1e1f22;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2326282e' fill-opacity='1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+
+            /*--map-size: 80vmin;*/
+            --map-size: min(80vh, 80vw);
+        }
+
+        .page-welcome {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            z-index: 10;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 2rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            padding-bottom: 10rem;
+
+            animation: page-welcome-scroll linear;
+            animation-timeline: scroll();
+        }
+        @keyframes page-welcome-scroll {
+            0% {
+                transform: translateY(0%);
+                opacity: 1;
+            }
+            10% {
+                pointer-events: none;
+            }
+            100% {
+                transform: translateY(45%);
+                opacity: .8;
+                pointer-events: none;
+            }
+        }
+        .page-welcome .title {
+            font-family: 'Epcxt', system-ui;
+            font-weight: 400;
+            font-size: 5rem;
+            text-align: center;
+            user-select: none;
+        }
+
+        .page-welcome .button {
+            width: 158px;
+            height: 56px;
+            overflow: hidden;
+            border: none;
+            color: #4b5059;
+            background: none;
+            position: relative;
+            padding-bottom: 2em;
+            cursor: pointer;
+            user-select: none;
+        }
+        .page-welcome .button > div,
+        .page-welcome .button > svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        .page-welcome .button:before {
+            content: "";
+            position: absolute;
+            height: 2px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            background: currentColor;
+            transition: transform 0.25s ease-out;
+        }
+        .page-welcome .button:hover:before {
+            transform: scaleX(1);
+            transform-origin: top right;
+        }
+        .page-welcome .button .text > * {
+            opacity: 1;
+            font-size: 1.3rem;
+            transition: 0.2s;
+            margin-left: 4px;
+        }
+        .page-welcome .button .clone > * {
+            transform: translateY(60px);
+        }
+        .page-welcome .button:hover .text > * {
+            opacity: 1;
+            transform: translateY(-60px);
+            transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+        }
+        .page-welcome .button:hover .clone > * {
+            opacity: 1;
+            transform: translateY(0px);
+            transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+        }
+        .page-welcome .button:hover .clone > :nth-child(1) {transition-delay: 0.15s}
+        .page-welcome .button:hover .clone > :nth-child(2) {transition-delay: 0.2s}
+        .page-welcome .button:hover .clone > :nth-child(3) {transition-delay: 0.25s}
+        .page-welcome .button:hover .clone > :nth-child(4) {transition-delay: 0.3s}
+        .page-welcome .button svg {
+            width: 20px;
+            right: 0;
+            top: 50%;
+            transform: translateY(-52%) rotate(50deg);
+            transition: 0.2s ease-out;
+        }
+        .page-welcome .button:hover svg {
+            transform: translateY(-52%) rotate(90deg);
+        }
+
+        .page-map-place {
+            width: 100%;
+            height: 100vh;
+        }
+        .page-map {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .page-map .map-container {
+            position: relative;
+            width: var(--map-size);
+            height: var(--map-size);
+            margin-bottom: calc(var(--map-size) * .08);
+
+            transform-style: preserve-3d;
+            perspective: 1000px;
+
+
+        }
+        .page-map * {
+            image-rendering: pixelated !important;
+        }
+        .page-map .map-background {
+            display: block;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+
+            background-image: url("assets/img/map/map_background.png");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            padding: 4.5%;
+
+            animation: map-rotate linear;
+            animation-timeline: scroll();
+        }
+        @keyframes map-rotate {
+            from {transform: translateY(49%) rotateX(64deg)}
+            to {transform: translateY(0) rotateX(0deg)}
+        }
+        .page-map #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hand {
+            position: fixed;
+
+            --cube-o-size: .26;
+            --cube-unit: var(--map-size);
+
+            --cube-length: var(--cube-o-size);
+            --cube-width: calc(var(--cube-o-size) * 2);
+            --cube-height: var(--cube-o-size);
+
+            animation: hand-move linear;
+            animation-timeline: scroll();
+        }
+        @keyframes hand-move {
+            from {margin-bottom: calc(var(--map-size) * -.8)}
+            to {margin-bottom: 0}
+        }
+        .hand .top {background: #ae8866}
+        .hand .front {background: #a87d58}
+        .hand.left {
+            --rotate-x: -45deg;
+            --rotate-y: 50deg;
+            --rotate-z: -17deg;
+            left: calc(50vw - var(--map-size) / 2 - var(--map-size) * .13);
+            bottom: calc(var(--map-size) * -.28);
+        }
+        .hand.right {
+            --rotate-x: -41deg;
+            --rotate-y: 147deg;
+            --rotate-z: -27deg;
+            right: calc(50vw - var(--map-size) / 2 - var(--map-size) * .17);
+            bottom: calc(var(--map-size) * -.38);
+        }
+
+
+
+        .fullscreen {
+            position: fixed;
+            bottom: 0;
+            right: 2rem;
+            width: 4rem;
+            height: 4.5rem;
+            background: #2b2d30;
+            z-index: 9999;
+            cursor: pointer;
+            user-select: none;
+
+            animation: fullscreen-move linear;
+            animation-timeline: scroll();
+        }
+        .fullscreen span {
+            width: 100%;
+            color: #fff;
+            font-size: 3rem;
+            text-align: center;
+            margin-top: .5rem;
+        }
+        @keyframes fullscreen-move {
+            from {transform: translateY(100%)}
+            to {transform: translateY(0)}
+        }
+        @media screen and (max-width: 1068px){
+            .fullscreen {
+                top: 2rem;
+                right: 0;
+                width: 4.5rem;
+                height: 4rem;
+            }
+            @keyframes fullscreen-move {
+                from {transform: translateX(100%)}
+                to {transform: translateX(0)}
+            }
+            .fullscreen span {
+                margin-top: .5rem;
+                margin-left: -.2rem;
+            }
+        }
+
+        #message-box {
+            z-index: 9999;
+            position: fixed;
+            left: 0;
+            bottom: 6rem;
+            pointer-events: none;
+
+            animation: message-box-move linear;
+            animation-timeline: scroll();
+        }
+        @keyframes message-box-move {
+            from {
+                transform: translateY(200%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        #message-box > p {
+            display: block;
+            width: calc(var(--map-size) * .6);
+            padding: 0 .8rem;
+            color: #fff;
+            background: rgba(0, 0, 0, .4);
+
+            opacity: 1;
+            transition: all .2s;
+        }
+    </style>
+    <title>DogeLake | 地图</title>
+</head>
+<body>
+
+<main>
+    <div class="page-welcome">
+        <h1 class="title">犬明湖地图站</h1>
+        <button class="button">
+            <div class="text js-duplicate">
+                <span>Scroll</span>
+                <span>to</span>
+                <span>view</span>
+            </div>
+            <svg
+                    stroke-width="2"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    class="h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20px"
+            >
+                <path
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                ></path>
+            </svg>
+        </button>
+    </div>
+    <div id="page-map-place" class="page-map-place"></div>
+    <div class="page-map">
+        <div class="hand left cube-3d">
+            <div class="top"></div>
+            <div class="front"></div>
+        </div>
+        <div class="hand right cube-3d">
+            <div class="top"></div>
+        </div>
+        <div class="map-container">
+            <div class="map-background">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fullscreen">
+        <span class="material-symbols-sharp">fullscreen</span>
+    </div>
+
+    <div id="message-box"></div>
+</main>
+
+<!-- JavaScript -->
+<script src="assets/js/js-duplicate.js"></script>
+<script src="assets/js/time-tools.js"></script>
+<script src="assets/js/support-css-animation-timeline-scroll-linear.js"></script>
+<script src="assets/js/openlayers.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/5.2.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+<script src="http://play.dogelake.cn:29039/unmined.map.properties.js"></script>
+<script src="http://play.dogelake.cn:29039/unmined.map.regions.js"></script>
+<script src="assets/js/map/custom.markers.js"></script>
+<script src="assets/js/map/unmined.openlayers.js"></script>
+<script src="assets/js/motdparser.js"></script>
+<script>
+    // css scroll-behavior 没反应, 只能用js力 :/
+    document.querySelector('.page-welcome .button').onclick = () => window.scrollTo({
+        top: window.innerHeight,
+        behavior: 'smooth'
+    });
+    const map = document.getElementById("map");
+    document.querySelector('.fullscreen').onclick = () => {
+        if (map.requestFullscreen) {
+            map.requestFullscreen();
+        } else if (map.mozRequestFullScreen) {
+            map.mozRequestFullScreen();
+        } else if (map.msRequestFullscreen) {
+            map.msRequestFullscreen();
+        } else if (map.webkitRequestFullscreen) {
+            map.webkitRequestFullScreen();
+        }
+    }
+
+    supportAnimateTimelineCSS([
+        ['.page-welcome', 'page-welcome-scroll'],
+        ['.page-map .map-background', 'map-rotate'],
+        ['.hand', 'hand-move'],
+        ['.fullscreen', 'fullscreen-move'],
+        ['#message-box', 'message-box-move']
+    ]);
+
+    try {
+        UnminedMapProperties.markers = UnminedMapProperties.markers.concat(UnminedCustomMarkers.markers);
+        let unmined = new Unmined();
+        unmined.map('map', UnminedMapProperties, UnminedRegions);
+    } catch (e) {
+        console.log(e);
+    }
+
+    // let i = 0;
+    // setInterval(() => sendMessage(`§e${i++}`), 100)
+
+    const messageBox = document.getElementById("message-box");
+    function sendMessage(msg) {
+        let p = document.createElement("p");
+        motdParser.toHtml(msg, (err, res) => {
+            res = err ? msg : res;
+            p.innerHTML = res;
+        });
+        messageBox.appendChild(p);
+        setTimeout(() => {
+            p.style.opacity = '0';
+            setTimeout(() => p.remove(), 200);
+        }, 5000);
+    }
+
+    let lastMsg = undefined;
+    const getRecentMsgs = () => {
+        $.ajax({
+            url: llseBackend + '/map/getRecentMsgs',
+            type: 'GET',
+            dataType: 'json',
+            success: data => {
+                if (!data || data.length === 0) return;
+
+                if (lastMsg === undefined) {
+                    lastMsg = data.pop();
+                    return;
+                }
+
+                let index = data.lastIndexOf(lastMsg);
+                for (let i = index + 1; i < data.length; i++) {
+                    sendMessage(data[i]);
+                }
+                lastMsg = data.pop();
+            }
+        });
+    };
+    getRecentMsgs();
+    setInterval(getRecentMsgs, 1000);
+</script>
+</body>
+</html>
