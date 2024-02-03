@@ -2,47 +2,38 @@ let layers = [];
 
 function switchable(layer) {
     layers.push(layer);
+    setTimeout(() => layer.setVisible(false), 0);
     return layer;
 }
 
-// let v = false;
-// setInterval(() => {
-//     layers.forEach(layer => layer.setVisible(v = !v));
-// }, 2000);
-
 ol.control.LayerSwitcher = function () {
-    // const root = ;
-    //
-    //
-    // const _options = opt_options || {}
-    //
-    // const _root = document.createElement('div')
-    // _root.className = 'ol-layer-data-loading'
-    // _root.style = {
-    //     'width':'100%',
-    //     'height':'100%',
-    //     'background-color':'rgba(255,255,255,0.5)'
-    // }
-    //
-    // const _box = document.createElement('span')
-    // _box.className = 'ol-layer-spin-dot-spin'
-    //
-    // for(let i = 0 ; i < 4; i++){
-    //     const _i = document.createElement('i')
-    //     _i.className = 'ol-layer-spin-dot-item dot'+i
-    //     _box.appendChild(_i)
-    // }
-    // _root.appendChild(_box)
+    let shown = false;
 
-    const root = document.createElement("div");
-    root.style = {
-        width: '1rem',
-        height: '1rem',
-        background: 'red'
+    const span = document.createElement('span');
+    span.classList.add('material-symbols-sharp');
+    span.innerText = 'share_location';
+    span.style = `
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        padding: .5rem;
+        width: 3rem;
+        height: 3rem;
+        font-size: 2rem;
+        color: #fff;
+        cursor: pointer;
+        border-radius: calc(infinity * 1px);
+        transition: all .1s ease;
+    `;
+
+    span.onclick = () => {
+        shown = !shown;
+        layers.forEach(layer => layer.setVisible(shown));
+        span.style.background = shown ? '#b62121' : 'transparent';
     }
 
     ol.control.Control.call(this, {
-        element: root
+        element: span
     });
 }
-ol.inherits(ol.control.LayerSwitcher, ol.control.Control)
+ol.inherits(ol.control.LayerSwitcher, ol.control.Control);

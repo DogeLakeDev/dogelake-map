@@ -140,7 +140,7 @@ class Unmined {
 
             ]),
             layers: [
-                switchable(unminedLayer),
+                unminedLayer,
 
                 // new ol.layer.Tile({
                 //     source: new ol.source.TileDebug({
@@ -179,6 +179,17 @@ class Unmined {
         getPlayerMarkers();
         setInterval(getPlayerMarkers, 1000);
 
+        let placeMarkersLayer;
+        $.ajax({
+            url: llseBackend + '/map/getPlaceMarkers',
+            type: 'GET',
+            dataType: 'json',
+            success: data => {
+                placeMarkersLayer = this.createMarkersLayer(data, dataProjection, viewProjection);
+                map.addLayer(switchable(placeMarkersLayer));
+            }
+        });
+
         // Marks
         markersLayer = this.createMarkersLayer(options.markers, dataProjection, viewProjection);
         map.addLayer(markersLayer);
@@ -210,7 +221,7 @@ class Unmined {
                 }));
                 style.setText(new ol.style.Text({
                     text: item.text,
-                    font: 'bold .6rem Minecraft, Unifont, system-ui',
+                    font: '.6rem Minecraft, Unifont, system-ui',
                     offsetX: item.offsetX,
                     offsetY: item.offsetY,
                     fill: new ol.style.Fill({color: '#ffffff'}),
