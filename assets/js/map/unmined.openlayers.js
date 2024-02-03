@@ -1,6 +1,6 @@
 let tilesBackend = 'http://play.dogelake.cn:29039';
 // let llseBackend = 'http://127.0.0.1:29035';
-let llseBackend = 'http://play.dogelake.cn:29035';
+let llseBackend = 'http://play.dogelake.cn:29039/llse';
 
 let markersLayer;
 class Unmined {
@@ -49,7 +49,7 @@ class Unmined {
             resolutions[mapZoomLevels - z] = Math.pow(2, z) * dpiScale / worldMaxZoomFactor;
         }
 
-        var tileGrid = new ol.tilegrid.TileGrid({
+        const tileGrid = new ol.tilegrid.TileGrid({
             extent: mapExtent,
             origin: [0, 0],
             resolutions: resolutions,
@@ -95,14 +95,14 @@ class Unmined {
                                         x: Math.floor(x / 32),
                                         z: Math.floor(z / 32)
                                     };
-                                    const regionMap = regions.find(e => e.x == group.x && e.z == group.z);
+                                    const regionMap = regions.find(e => e.x === group.x && e.z === group.z);
                                     if (regionMap) {
                                         const relX = x - group.x * 32;
                                         const relZ = z - group.z * 32;
                                         const inx = relZ * 32 + relX;
-                                        var b = regionMap.m[Math.floor(inx / 32)];
-                                        var bit = inx % 32;
-                                        var found = (b & (1 << bit)) != 0;
+                                        const b = regionMap.m[Math.floor(inx / 32)];
+                                        const bit = inx % 32;
+                                        const found = (b & (1 << bit)) !== 0;
                                         if (found) return true;
                                     }
                                 }

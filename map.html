@@ -231,8 +231,12 @@
             cursor: pointer;
             user-select: none;
 
+            transition: background .2s ease;
             animation: fullscreen-move linear;
             animation-timeline: scroll();
+        }
+        .fullscreen:hover {
+            background: #656565;
         }
         .fullscreen span {
             width: 100%;
@@ -350,12 +354,13 @@
 <script src="assets/js/js-duplicate.js"></script>
 <script src="assets/js/time-tools.js"></script>
 <script src="assets/js/support-css-animation-timeline-scroll-linear.js"></script>
-<script src="assets/js/openlayers.js"></script>
+<script src="assets/js/map/openlayers.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/5.2.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
 <script src="http://play.dogelake.cn:29039/unmined.map.properties.js"></script>
 <script src="http://play.dogelake.cn:29039/unmined.map.regions.js"></script>
 <script src="assets/js/map/custom.markers.js"></script>
+<script src="assets/js/map/openlayers-fix.js"></script>
 <script src="assets/js/map/unmined.openlayers.js"></script>
 <script src="assets/js/motdparser.js"></script>
 <script>
@@ -399,6 +404,8 @@
     const messageBox = document.getElementById("message-box");
     function sendMessage(msg) {
         let p = document.createElement("p");
+        (p.textContent != null) ? (p.textContent = msg) : (p.innerText = msg);
+        msg = p.innerHTML;
         motdParser.toHtml(msg, (err, res) => {
             res = err ? msg : res;
             p.innerHTML = res;
@@ -407,28 +414,28 @@
         setTimeout(() => {
             p.style.opacity = '0';
             setTimeout(() => p.remove(), 200);
-        }, 5000);
+        }, 10000);
     }
 
-    let lastMsg = undefined;
+    let lastMsgTimestamp = undefined;
     const getRecentMsgs = () => {
         $.ajax({
             url: llseBackend + '/map/getRecentMsgs',
             type: 'GET',
             dataType: 'json',
             success: data => {
-                if (!data || data.length === 0) return;
+                if (!data || data.t.length === 0) return;
 
-                if (lastMsg === undefined) {
-                    lastMsg = data.pop();
+                if (lastMsgTimestamp === undefined) {
+                    lastMsgTimestamp = data.t.pop();
                     return;
                 }
 
-                let index = data.lastIndexOf(lastMsg);
-                for (let i = index + 1; i < data.length; i++) {
-                    sendMessage(data[i]);
+                let index = data.t.lastIndexOf(lastMsgTimestamp);
+                for (let i = index + 1; i < data.t.length; i++) {
+                    sendMessage(data.m[i]);
                 }
-                lastMsg = data.pop();
+                lastMsgTimestamp = data.t.pop();
             }
         });
     };
