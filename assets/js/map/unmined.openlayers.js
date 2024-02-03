@@ -1,5 +1,5 @@
 let tilesBackend = 'http://play.dogelake.cn:29039';
-// let llseBackend = 'http://127.0.0.1:29035';
+// let llseBackend = 'http://127.0.0.1:29035/llse';
 let llseBackend = 'http://play.dogelake.cn:29039/llse';
 
 let markersLayer;
@@ -127,7 +127,6 @@ class Unmined {
                 })
             });
 
-
         const map = new ol.Map({
             target: mapId,
             controls: ol.control.defaults().extend([
@@ -137,18 +136,18 @@ class Unmined {
                     projection: dataProjection
                 }),
 
+                new ol.control.LayerSwitcher()
+
             ]),
             layers: [
-                unminedLayer,
-                /*
-                new ol.layer.Tile({
-                    source: new ol.source.TileDebug({
-                        tileGrid: unminedTileGrid,
-                        projection: viewProjection
-                    })
-                })
-                */
+                switchable(unminedLayer),
 
+                // new ol.layer.Tile({
+                //     source: new ol.source.TileDebug({
+                //         tileGrid: tileGrid,
+                //         projection: viewProjection
+                //     })
+                // })
             ],
             view: new ol.View({
                 center: [0, 0],
@@ -206,21 +205,17 @@ class Unmined {
                 style.setImage(new ol.style.Icon({
                     src: 'assets/img/map/player.png',
                     anchor: [0.5, .5],
-                    scale: 1
+                    scale: .3,
+                    rotation: item.rotation ? (item.rotation + 180) * (Math.PI / 180) : 0
                 }));
                 style.setText(new ol.style.Text({
                     text: item.text,
                     font: 'bold .6rem Minecraft, Unifont, system-ui',
                     offsetX: item.offsetX,
                     offsetY: item.offsetY,
-                    fill: item.textColor ? new ol.style.Fill({
-                        color: item.textColor
-                    }) : null,
+                    fill: new ol.style.Fill({color: '#ffffff'}),
                     padding: item.textPadding ?? [2, 4, 2, 4],
-                    stroke: item.textStrokeColor ? new ol.style.Stroke({
-                        color: item.textStrokeColor,
-                        width: item.textStrokeWidth
-                    }) : null,
+                    stroke: new ol.style.Stroke({color: '#000000', width: 3}),
                     backgroundFill: item.textBackgroundColor ? new ol.style.Fill({
                         color: item.textBackgroundColor
                     }) : null,
