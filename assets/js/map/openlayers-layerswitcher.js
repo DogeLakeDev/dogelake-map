@@ -14,8 +14,8 @@ ol.control.LayerSwitcher = function () {
     span.innerText = 'share_location';
     span.style = `
         position: absolute;
-        right: 1rem;
-        bottom: 1rem;
+        right: 0;
+        bottom: 0;
         padding: .5rem;
         width: 3rem;
         height: 3rem;
@@ -30,6 +30,8 @@ ol.control.LayerSwitcher = function () {
         shown = !shown;
         layers.forEach(layer => layer.setVisible(shown));
         span.style.background = shown ? '#b62121' : 'transparent';
+        span.style.right      = shown ? '1rem' : '0';
+        span.style.bottom     = shown ? '1rem' : '0';
     }
 
     ol.control.Control.call(this, {
