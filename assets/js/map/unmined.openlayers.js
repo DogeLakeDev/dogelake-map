@@ -164,6 +164,7 @@ class Unmined {
 
 
         let playerMarkersLayer;
+        let lastGetPlayerMarkersTime = new Date().getTime();
         const getPlayerMarkers = () => {
             $.ajax({
                 url: llseBackend + '/map/getPlayerMarkers',
@@ -173,11 +174,18 @@ class Unmined {
                     if (playerMarkersLayer) map.removeLayer(playerMarkersLayer);
                     playerMarkersLayer = this.createMarkersLayer(data, dataProjection, viewProjection);
                     map.addLayer(playerMarkersLayer);
+
+                    let now = new Date().getTime();
+                    setTimeout(getPlayerMarkers, Math.max(0,
+                        1000 - (now - lastGetPlayerMarkersTime)
+                    ));
+                    lastGetPlayerMarkersTime = now;
+                    // getPlayerMarkers();
                 }
             });
         };
         getPlayerMarkers();
-        setInterval(getPlayerMarkers, 1000);
+        // setInterval(getPlayerMarkers, 1000);
 
         let placeMarkersLayer;
         $.ajax({
