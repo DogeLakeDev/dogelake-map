@@ -3,16 +3,30 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
 @font-face {
     font-family: "Epcxt";
     src: url("../font/epcxt.ttf");
 }
+
 @font-face {
     font-family: "SmileySans";
     src: url("../font/SmileySans-Oblique.ttf");
 }
 
-body {
-    width: 100%;
-    height: 100%;
+@font-face {
+    font-family: "Minecraft";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../font/minecraft_font.ttf");
+}
+
+@font-face {
+    font-family: "Unifont";
+    src: url("../font/unifont-15.1.04.otf");
 }
