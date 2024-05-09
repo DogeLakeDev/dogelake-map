@@ -45,7 +45,7 @@ function sendMessage(msg) {
 let lastMsgTimestamp = undefined;
 const getRecentMsgs = () => {
     $.ajax({
-        url: llseBackend + '/map/getRecentMsgs',
+        url: llseBackend + '/getRecentMsgs',
         type: 'GET',
         dataType: 'json',
         success: data => {

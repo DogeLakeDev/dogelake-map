@@ -1,6 +1,5 @@
 let tilesBackend = 'http://play.dogelake.cn:29039';
-// let llseBackend = 'http://127.0.0.1:29035/llse';
-let llseBackend = 'http://play.dogelake.cn:29039/llse';
+let llseBackend = 'http://play.dogelake.cn:29039/doge';
 
 let markersLayer;
 class Unmined {
@@ -167,7 +166,7 @@ class Unmined {
         let lastGetPlayerMarkersTime = new Date().getTime();
         const getPlayerMarkers = () => {
             $.ajax({
-                url: llseBackend + '/map/getPlayerMarkers',
+                url: llseBackend + '/getPlayerMarkers',
                 type: 'GET',
                 dataType: 'json',
                 success: data => {
@@ -189,7 +188,7 @@ class Unmined {
 
         let placeMarkersLayer;
         $.ajax({
-            url: llseBackend + '/map/getPlaceMarkers',
+            url: llseBackend + '/getPlaceMarkers',
             type: 'GET',
             dataType: 'json',
             success: data => {
