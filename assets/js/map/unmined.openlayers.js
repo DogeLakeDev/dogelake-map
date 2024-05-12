@@ -170,6 +170,9 @@ class Unmined {
                 type: 'GET',
                 dataType: 'json',
                 success: data => {
+                    // TODO delete
+                    data = data.markers
+
                     if (playerMarkersLayer) map.removeLayer(playerMarkersLayer);
                     playerMarkersLayer = this.createMarkersLayer(data, dataProjection, viewProjection);
                     map.addLayer(playerMarkersLayer);
