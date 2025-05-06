@@ -1,5 +1,5 @@
-let tilesBackend = 'http://play.dogelake.cn:29039';
-let llseBackend = 'http://play.dogelake.cn:29039/doge';
+let tilesBackend = 'http://play.dogelake.cn:21309';
+let llseBackend = 'http://play.dogelake.cn:21309/doge';
 
 let markersLayer;
 class Unmined {
